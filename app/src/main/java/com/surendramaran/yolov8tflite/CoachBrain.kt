@@ -31,8 +31,9 @@ class CoachBrain(private val context: Context) {
             // Smart Logic: Determine the 'Vibe' based on the score
             val vibe = if (score > 85) "Elite Athlete" else if (score > 60) "Intermediate" else "Beginner"
 
-            // The "Intelligent" Prompt
+            // The "Intelligent" Prompt formatted specifically for Gemma-IT
             val prompt = """
+                <start_of_turn>user
                 Role: You are an elite, biomechanically expert fitness coach.
                 Task: Analyze the user's latest set.
                 
@@ -42,11 +43,12 @@ class CoachBrain(private val context: Context) {
                 - Form Accuracy Score: $score% (Level: $vibe)
                 
                 Output Format (Strictly follow this):
-                **Feedback:** [1 sentence summarizing performance]
-                **Tip:** [1 specific biomechanical correction based on the score]
-                **Next:** [1 motivational command]
+                Feedback: [1 sentence summarizing performance]
+                Tip: [1 specific biomechanical correction based on the score]
+                Next: [1 motivational command]
                 
-                Do not use markdown symbols like hashtags. Keep it professional.
+                Do not use markdown symbols like hashtags. Keep it professional.<end_of_turn>
+                <start_of_turn>model
             """.trimIndent()
 
             try {
